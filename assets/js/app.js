@@ -75,7 +75,7 @@
   // STATE
   // =============================================
   var state = {
-    lang: 'se',
+    lang: 'en',
     currentView: 'home',
     selectedWeek: 1,
     completedExercises: {},   // "weekId-exIdx": { completedAt, reps, note, mood, effort }
