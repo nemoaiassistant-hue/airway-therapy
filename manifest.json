@@ -1,0 +1,20 @@
+{
+  "name": "Airway Clinic — Myofunctional Therapy",
+  "short_name": "Airway Therapy",
+  "description": "Personalised myofunctional therapy training programme for sleep apnea treatment",
+  "start_url": "/airway-therapy/",
+  "display": "standalone",
+  "background_color": "#1B4332",
+  "theme_color": "#3bb6b3",
+  "orientation": "portrait",
+  "lang": "en",
+  "categories": ["health", "medical", "fitness"],
+  "icons": [
+    {
+      "src": "assets/img/logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

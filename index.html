@@ -9,6 +9,10 @@
   <meta name="apple-mobile-web-app-title" content="Airway Clinic" />
   <title>Airway Clinic — Myofunctional Therapy</title>
   <meta name="description" content="Myofunctional Therapy training app by Airway Clinic. Personalised orofacial exercise programme for sleep apnea." />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#3bb6b3" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="stylesheet" href="assets/css/main.css" />
   <style>
     .splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#1B4332,#2D6A4F,#40916C);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .4s ease-out}
@@ -192,6 +196,11 @@
         setTimeout(function() { s.remove(); }, 400);
       }, 2500);
     });
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(function() {});
+    }
   </script>
 </body>
 </html>

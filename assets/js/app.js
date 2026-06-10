@@ -210,14 +210,6 @@
   function updateStreak() {
     var today = todayStr();
 
-    // Add today to active days if not already present
-    var idx = state.activeDays.indexOf(today);
-    if (idx === -1) {
-      state.activeDays.push(today);
-    }
-
-    state.lastActiveDate = today;
-
     // Calculate streak from activeDays
     state.activeDays.sort();
     var streak = 0;
@@ -233,7 +225,7 @@
       if (state.activeDays.indexOf(dateStr) !== -1) {
         streak++;
       } else if (i === 0) {
-        // Today not yet recorded, skip
+        // Today not yet recorded, skip — don't break
       } else {
         break;
       }
@@ -244,6 +236,16 @@
     if (streak > state.longestStreak) {
       state.longestStreak = streak;
     }
+  }
+
+  function recordActiveDay() {
+    var today = todayStr();
+    var idx = state.activeDays.indexOf(today);
+    if (idx === -1) {
+      state.activeDays.push(today);
+    }
+    state.lastActiveDate = today;
+    updateStreak();
   }
 
   // =============================================
@@ -402,7 +404,7 @@
       reps: state.repCounters[key] || 0,
     };
 
-    updateStreak();
+    recordActiveDay();
     checkWeekUnlock();
     save();
     updateHeaderProgress();
@@ -795,7 +797,7 @@
     var sessionBtn = $('#completeSessionBtn');
     if (sessionBtn) {
       sessionBtn.addEventListener('click', function () {
-        updateStreak();
+        recordActiveDay();
         checkWeekUnlock();
         save();
         updateHeaderProgress();
@@ -1000,12 +1002,12 @@
         '</div>' +
         '<div class="progress-overall-stats">' +
           '<div class="progress-mini-stat">' +
-            '<span class="progress-mini-num">' + getCompletedCount() + '</span>' +
-            '<span class="progress-mini-label">' + t('stat_exercises') + '</span>' +
+            '<span class="progress-mini-num">' + getTotalSessions() + '</span>' +
+            '<span class="progress-mini-label">' + t('stat_sessions') + '</span>' +
           '</div>' +
           '<div class="progress-mini-stat">' +
-            '<span class="progress-mini-num">' + state.dailyStreak + '</span>' +
-            '<span class="progress-mini-label">' + t('stat_streak') + '</span>' +
+            '<span class="progress-mini-num">' + state.longestStreak + '</span>' +
+            '<span class="progress-mini-label">' + t('stat_longest') + '</span>' +
           '</div>' +
         '</div>' +
       '</div>' +
