@@ -151,12 +151,39 @@
     return (window.THERAPY_DATA && window.THERAPY_DATA.weeks) || [];
   }
 
+  function localizeExercise(ex) {
+    var lang = state.lang === 'se' ? 'Se' : 'En';
+    return {
+      id: ex.id,
+      type: ex.type,
+      icon: ex.icon || '💪',
+      title: ex['title' + lang] || ex.title || '',
+      instructions: ex['instructions' + lang] || ex.instructions || '',
+      tip: ex['tip' + lang] || ex.tip || '',
+      setsPerDay: ex.setsPerDay || 2,
+      reps: ex.reps || 10,
+      seconds: ex.seconds || ex.holdSeconds || 30,
+      duration: ex.duration || 60
+    };
+  }
+
+  function localizeWeek(week) {
+    var lang = state.lang === 'se' ? 'Se' : 'En';
+    return {
+      id: week.id,
+      phaseId: week.phaseId,
+      title: week['title' + lang] || week.title || ('Week ' + week.id),
+      description: week['desc' + lang] || week.description || '',
+      exercises: (week.exercises || []).map(localizeExercise)
+    };
+  }
+
   function getWeek(weekId) {
-    var weeks = getWeeks();
-    for (var i = 0; i < weeks.length; i++) {
-      if (weeks[i].id === weekId) return weeks[i];
-    }
-    return null;
+   var weeks = getWeeks();
+   for (var i = 0; i < weeks.length; i++) {
+     if (weeks[i].id === weekId) return localizeWeek(weeks[i]);
+   }
+   return null;
   }
 
   function getExercisesForWeek(weekId) {
@@ -512,7 +539,7 @@
   }
 
   function renderWeekGrid() {
-    var weeks = getWeeks();
+    var weeks = getWeeks().map(localizeWeek);
     var grid = $('#weekGrid');
     if (!grid) return;
     grid.innerHTML = '';
@@ -1016,7 +1043,7 @@
       '</div>' +
       '<div class="progress-week-list">';
 
-    var weeks = getWeeks();
+    var weeks = getWeeks().map(localizeWeek);
     for (var i = 0; i < weeks.length; i++) {
       var w = weeks[i];
       var wPct = getWeekPercent(w.id);
