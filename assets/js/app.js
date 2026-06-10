@@ -79,7 +79,7 @@
     currentView: 'home',
     selectedWeek: 1,
     completedExercises: {},   // "weekId-exIdx": { completedAt, reps, note, mood, effort }
-    weekUnlocked: [1],
+    weekUnlocked: [1,2,3,4,5,6,7,8,9,10], // REVIEW MODE — all unlocked for preview
     dailyStreak: 0,
     longestStreak: 0,
     lastActiveDate: null,
