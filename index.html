@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#2D6A4F" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Airway Clinic" />
+  <title>Airway Clinic — Myofunctional Therapy</title>
+  <meta name="description" content="Myofunctional Therapy training app by Airway Clinic. Personalised orofacial exercise programme for sleep apnea." />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    .splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#1B4332,#2D6A4F,#40916C);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .4s ease-out}
+    .splash.hidden{opacity:0;pointer-events:none}
+    .splash-icon{font-size:80px;animation:splashPulse 1.5s ease-in-out infinite}
+    .splash-title{color:#fff;font-size:28px;font-weight:700;margin-top:20px;letter-spacing:-0.3px}
+    .splash-sub{color:rgba(255,255,255,.7);font-size:14px;margin-top:8px;font-weight:400}
+    .splash-loader{width:56px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin-top:36px;overflow:hidden}
+    .splash-loader-bar{height:100%;width:40%;background:#95D5B2;border-radius:2px;animation:splashLoad 1.2s ease-in-out infinite}
+    @keyframes splashPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+    @keyframes splashLoad{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+  </style>
+</head>
+<body>
+  <!-- SPLASH -->
+  <div class="splash" id="splash">
+    <div class="splash-icon">🫁</div>
+    <div class="splash-title" id="splashTitle">Airway Clinic</div>
+    <div class="splash-sub" id="splashSub">Myofunktionell Terapi</div>
+    <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-icon">🫁</span>
+        <div class="brand-text">
+          <span class="brand-title">Airway Clinic</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="progress-pill" id="progressPill">
+          <div class="progress-pill-fill" id="progressPillFill"></div>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="lang-flags">
+          <span class="lang-flag-btn active" id="langSe" title="Svenska">🇸🇪</span>
+          <span class="lang-flag-btn" id="langEn" title="English">🇬🇧</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main id="app">
+
+    <!-- HOME VIEW -->
+    <div class="view active" id="homeView">
+      <div class="hero">
+        <h1 class="hero-title" id="heroTitle">Myofunktionell Terapi</h1>
+        <p class="hero-sub" id="heroSub">Ditt personliga träningsprogram</p>
+      </div>
+
+      <div class="stats-row" id="homeStats"></div>
+
+      <!-- Quick Action -->
+      <button class="cta-button" id="startTrainingBtn">
+        <span class="cta-icon">▶️</span>
+        <span id="ctaLabel">Starta dagens träning</span>
+      </button>
+
+      <!-- Week Grid -->
+      <h2 class="section-heading" id="weekHeading">Programöversikt</h2>
+      <div class="week-grid" id="weekGrid">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- TRAINING VIEW -->
+    <div class="view" id="trainingView">
+      <button class="back-btn" id="trainingBackBtn">← <span id="trainingBackLabel">Tillbaka</span></button>
+      <div class="training-container" id="trainingContainer">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- NOTES VIEW -->
+    <div class="view" id="notesView">
+      <div class="notes-container" id="notesContainer">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- PROGRESS VIEW -->
+    <div class="view" id="progressView">
+      <div class="progress-container" id="progressContainer">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- SETTINGS VIEW -->
+    <div class="view" id="settingsView">
+      <div class="settings-container" id="settingsContainer">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Tab Navigation -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="bottom-nav-item active" id="navHome" data-target="home">
+      <span class="bottom-nav-icon">🏠</span>
+      <span class="bottom-nav-label" data-i18n="nav_home">Hem</span>
+    </button>
+    <button class="bottom-nav-item" id="navTraining" data-target="training">
+      <span class="bottom-nav-icon">📋</span>
+      <span class="bottom-nav-label" data-i18n="nav_training">Träning</span>
+    </button>
+    <button class="bottom-nav-item" id="navNotes" data-target="notes">
+      <span class="bottom-nav-icon">📝</span>
+      <span class="bottom-nav-label" data-i18n="nav_notes">Anteckningar</span>
+    </button>
+    <button class="bottom-nav-item" id="navProgress" data-target="progress">
+      <span class="bottom-nav-icon">📊</span>
+      <span class="bottom-nav-label" data-i18n="nav_progress">Framsteg</span>
+    </button>
+    <button class="bottom-nav-item" id="navSettings" data-target="settings">
+      <span class="bottom-nav-icon">⚙️</span>
+      <span class="bottom-nav-label" data-i18n="nav_settings">Inställningar</span>
+    </button>
+  </nav>
+
+  <!-- Note Modal -->
+  <div class="modal-overlay" id="noteModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3 id="noteModalTitle">Anteckning</h3>
+        <button class="modal-close" id="noteModalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <textarea class="modal-textarea" id="noteText" placeholder="Skriv en anteckning..."></textarea>
+        <div class="modal-section">
+          <label class="modal-label" id="moodLabel">Humör</label>
+          <div class="mood-selector" id="moodSelector">
+            <button class="mood-btn" data-mood="😊">😊</button>
+            <button class="mood-btn" data-mood="😐">😐</button>
+            <button class="mood-btn" data-mood="😟">😟</button>
+            <button class="mood-btn" data-mood="😤">😤</button>
+          </div>
+        </div>
+        <div class="modal-section">
+          <label class="modal-label" id="effortLabel">Ansträngning</label>
+          <div class="effort-selector" id="effortSelector">
+            <button class="effort-btn" data-effort="1">1</button>
+            <button class="effort-btn" data-effort="2">2</button>
+            <button class="effort-btn" data-effort="3">3</button>
+            <button class="effort-btn" data-effort="4">4</button>
+            <button class="effort-btn" data-effort="5">5</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-save-btn" id="noteSaveBtn">Spara</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-sheet modal-sheet-sm">
+      <div class="modal-body">
+        <p class="confirm-text" id="confirmText"></p>
+      </div>
+      <div class="modal-footer modal-footer-row">
+        <button class="modal-cancel-btn" id="confirmCancel">Avbryt</button>
+        <button class="modal-danger-btn" id="confirmOk">Bekräfta</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    window.addEventListener("load", function() {
+      setTimeout(function() {
+        var s = document.getElementById("splash");
+        if (s) s.classList.add("hidden");
+        setTimeout(function() { s.remove(); }, 400);
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
