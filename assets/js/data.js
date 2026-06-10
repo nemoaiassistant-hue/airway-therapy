@@ -56,7 +56,7 @@ const THERAPY_DATA = {
         {
           id: "1-5", type: "timed", duration: 60, icon: "🧘",
           titleEn: "Rest Posture Check",
-          titleSe: "Vila Attityd Kontroll",
+          titleSe: "Viloställningskontroll",
           instructionsEn: "Sit or stand in your natural position. Now check these four things: 1) Are your lips gently sealed? 2) Are your teeth slightly apart (not clenched)? 3) Is your tongue resting on the roof of your mouth? 4) Are you breathing through your nose? Correct any that are wrong and hold the correct position for 60 seconds.",
           instructionsSe: "Sitt eller stå i din naturliga position. Kontrollera nu fyra saker: 1) Är läpparna försiktigt förslutna? 2) Är tänderna lite isär (inte sammanpressade)? 3) Vilar tungan på munnenens tak? 4) Andas du genom näsan? Korrigera eventuella fel och håll rätt position i 60 sekunder.",
           setsPerDay: 2,
@@ -164,7 +164,7 @@ const THERAPY_DATA = {
         {
           id: "3-4", type: "hold", holdSeconds: 10, icon: "💋",
           titleEn: "Lip Pucker Hold",
-          titleSe: "Läppkrusböjning",
+          titleSe: "Läppillsvallning",
           instructionsEn: "Pucker your lips forward tightly as if going to kiss something. Hold the puckered position for 10 seconds. Then relax back to a natural lip seal. Focus on feeling the orbicularis oris muscle (the muscle around your lips) working.",
           instructionsSe: "Kryssa läpparna framåt tätt som om du skulle kyssa något. Håll den kryssade positionen i 10 sekunder. Slappna sedan av till ett naturligt läppförslut. Fokusera på att känna orbicularis oris-muskeln (muskeln runt läpparna) arbeta.",
           setsPerDay: 2,
@@ -262,7 +262,7 @@ const THERAPY_DATA = {
         {
           id: "5-2", type: "hold", holdSeconds: 10, icon: "⬆️",
           titleEn: "Palatal Press — Posterior",
-          titleSe: "Gomtryck — Posterior",
+          titleSe: "Gomtryck — Bakre",
           instructionsEn: "This time, focus on the BACK of your tongue. Place the back third of your tongue against the soft palate (the soft area at the very back of the roof of your mouth). Press upward firmly. You may need to make a slight 'ng' sound to find the right position. Hold the press for 10 seconds.",
           instructionsSe: "Den här gången, fokusera på BAKSIDAN av tungan. Placera den bakre tredjedelen av tungan mot mjuka gommen (det mjuka området längst bak på munnenens tak). Tryck uppåt fast. Du kanske behöver göra ett litet 'ng'-ljud för att hitta rätt position. Håll trycket i 10 sekunder.",
           setsPerDay: 2,
@@ -321,7 +321,7 @@ const THERAPY_DATA = {
         {
           id: "6-2", type: "reps", icon: "💧",
           titleEn: "Water Swallow — Correct Pattern",
-          titleSe: "Vattensvälj — Korrekt Mönster",
+          titleSe: "Vattensväljning — Korrekt Mönster",
           instructionsEn: "Take a small sip of water. Hold it in the front of your mouth. Now place your tongue on the spot. Lips sealed, teeth slightly apart. Swallow the water by moving the tongue UP and BACK along the palate — like a wave rolling backward. Your tongue should NOT push against your front teeth.",
           instructionsSe: "Ta en liten klunk vatten. Håll den i framsidan av munnen. Placera tungan på platsen. Läpparna förslutna, tänderna lite isär. Svälj vattnet genom att flytta tangan UPP och BAKÅT längs gommen — som en våg som rullar bakåt. Tungan ska INTE trycka mot framtänderna.",
           setsPerDay: 2,
@@ -331,7 +331,7 @@ const THERAPY_DATA = {
         {
           id: "6-3", type: "reps", icon: "😬",
           titleEn: "Tongue Clench Swallow",
-          titleSe: "Tungskvabb Sväljning",
+          titleSe: "Tungspetssväljning",
           instructionsEn: "Gently hold the tip of your tongue between your upper and lower front teeth — do NOT bite hard. Now perform 5 swallows while maintaining this light hold. You'll feel the tongue muscles working against the resistance of the teeth. This builds tongue strength for proper swallow patterns.",
           instructionsSe: "Håll försiktigt tungspetsen mellan övre och undre framtänder — bit INTE hårt. Utför nu 5 sväljningar medan du behåller detta lätta grepp. Du kommer att känna tungmusklerna arbeta mot tändernas motstånd. Detta bygger tungstyrka för korrekt sväljmönster.",
           setsPerDay: 2,
@@ -411,7 +411,7 @@ const THERAPY_DATA = {
         {
           id: "7-5", type: "timed", duration: 120, icon: "🌙",
           titleEn: "Evening Wind-Down",
-          titleSe: "Kvällsnerplockning",
+          titleSe: "Kvällsavslappning",
           instructionsEn: "Perform this gentle routine before bed: 1 minute of 4-7-8 nasal breathing, 10 slow tongue-to-palate holds, 1 minute of gum chewing with humming, then 30 seconds of rest posture check (lips sealed, tongue on palate, teeth apart). This routine prepares your airway for sleep.",
           instructionsSe: "Utför denna milda rutin innan sängdags: 1 minut 4-7-8 näsandning, 10 långsamma tunga-mot-gommen håll, 1 minut tuggummimimik med hummande, sedan 30 sekunder vilopositionskontroll (läpparna förslutna, tungan på gommen, tänderna isär). Denna rutin förbereder luftvägarna för sömn.",
           setsPerDay: 2,
@@ -435,7 +435,7 @@ const THERAPY_DATA = {
           instructionsSe: "Välj valfri bok, artikel eller text. Läs den högt i 2 minuter medan du bibehåller: läpparna förslutna när du inte pratar, tungen vilar på gommen mellan orden, andas genom näsan. Tala tydligt och märk tungans position när du bildar varje ord.",
           setsPerDay: 2,
           tipEn: "Speaking is when most people break their oral posture. This exercise helps you maintain it even during speech.",
-          tipSe: "När man pratar är det flesta bryter sin oral attitude. Denna övning hjälper dig bibehålla den även under tal."
+          tipSe: "När man pratar är det flesta bryter sin oral hållning. Denna övning hjälper dig bibehålla den även under tal."
         },
         {
           id: "8-2", type: "timed", duration: 180, icon: "🍽️",
@@ -450,7 +450,7 @@ const THERAPY_DATA = {
         {
           id: "8-3", type: "reps", icon: "🧍",
           titleEn: "Posture Check Reminders",
-          titleSe: "Attitydpåminnelser",
+          titleSe: "Hållningspåminnelser",
           instructionsEn: "Set 5 random alarms on your phone throughout the day. When each alarm goes off, stop what you're doing and check your oral rest posture for 30 seconds: lips sealed? tongue on palate? teeth apart? breathing through nose? Correct any issues and continue your day. Log how many checks you got right.",
           instructionsSe: "Ställ in 5 slumpmässiga larm på telefonen under dagen. När varje larm ringer, stanna det du gör och kontrollera din oral viloposition i 30 sekunder: läpparna förslutna? tungan på gommen? tänderna isär? andas genom näsan? Korrigera eventuella problem och fortsätt din dag. Logga hur många kontroller du fick rätt.",
           setsPerDay: 2,
@@ -482,7 +482,7 @@ const THERAPY_DATA = {
     {
       id: 9, phaseId: "integration",
       titleEn: "Week 9: Habituation & Self-Monitoring",
-      titleSe: "Vecka 9: Invänjning & Självövervakning",
+      titleSe: "Vecka 9: Vanebildning & Självövervakning",
       descEn: "By now, exercises should feel more natural. This week focuses on building habits that last and self-monitoring your progress.",
       descSe: "Vid det här laget bör övningarna kännas mer naturliga. Denna vecka fokuserar på att bygga bestående vanor och självövervaka dina framsteg.",
       exercises: [
@@ -491,7 +491,7 @@ const THERAPY_DATA = {
           titleEn: "Habit Tracking Review",
           titleSe: "Vaneuppföljning",
           instructionsEn: "Spend 2 minutes reviewing your week. Which exercises felt easy? Which still need work? Are you catching yourself mouth-breathing less often? Write detailed notes about your progress in the Notes section. Rate your overall effort this week from 1-5.",
-          instructionsSe: "Spend 2 minuter på att granska din vecka. Vilka övningar kändes lätta? Vilka behöver fortfarande arbete? Får dunga dig själv munandande mindre ofta? Skriv detaljerade anteckningar om dina framsteg i Anteckningar-sektionen. Betygsätt din totala ansträngning denna vecka från 1-5.",
+          instructionsSe: "Spendera 2 minuter på att granska din vecka. Vilka övningar kändes lätta? Vilka behöver fortfarande arbete? Mår du fortfarande märka att du munandar mindre ofta? Skriv detaljerade anteckningar om dina framsteg i Anteckningar-sektionen. Betygsätt din totala ansträngning denna vecka från 1-5.",
           setsPerDay: 2,
           tipEn: "Self-monitoring is strongly linked to better outcomes in therapy. Honest notes help your therapist adjust your programme.",
           tipSe: "Självövervakning är starkt kopplat till bättre resultat i terapi. Ärliga anteckningar hjälper din terapeut att justera ditt program."
@@ -580,7 +580,7 @@ const THERAPY_DATA = {
           titleEn: "Final Self-Assessment",
           titleSe: "Slutgiltig Självbedömning",
           instructionsEn: "Compare your abilities now to Week 1. Check in the mirror: tongue position at rest, lip seal quality, swallow pattern. Rate your improvement in each area. Write detailed notes about your journey — what was hardest, what clicked first, what advice you'd give to someone starting the programme.",
-          instructionsSe: "Jämför dina förmågor nu med vecka 1. Kontrollera i spegeln: tungposition i vila, läppförslutningskvalitet, sväljmönster. Betygsätt din förbättring i varje område. Skriv detaljerade anteckningar om din resa — vad var svårast, vad klickade först, vilket råd du skulle ge någon som startar programmet.",
+          instructionsSe: "Jämför dina förmågor nu med vecka 1. Kontrollera i spegeln: tungans position i vila, läppförslutningens kvalitet, sväljmönster. Betygsätt din förbättring i varje område. Skriv detaljerade anteckningar om din resa — vad var svårast, vad klickade först, vilket råd du skulle ge någon som startar programmet.",
           setsPerDay: 2,
           tipEn: "This assessment is valuable for your therapist. Bring your notes to your follow-up appointment.",
           tipSe: "Denna bedömning är värdefull för din terapeut. Ta med dina anteckningar till uppföljningsbesöket."
