@@ -415,8 +415,8 @@ const THERAPY_DATA = {
           instructionsEn: "Perform this gentle routine before bed: 1 minute of 4-7-8 nasal breathing, 10 slow tongue-to-palate holds, 1 minute of gum chewing with humming, then 30 seconds of rest posture check (lips sealed, tongue on palate, teeth apart). This routine prepares your airway for sleep.",
           instructionsSe: "Utför denna milda rutin innan sängdags: 1 minut 4-7-8 näsandning, 10 långsamma tunga-mot-gommen håll, 1 minut tuggummimimik med hummande, sedan 30 sekunder vilopositionskontroll (läpparna förslutna, tungan på gommen, tänderna isär). Denna rutin förbereder luftvägarna för sömn.",
           setsPerDay: 2,
-          tipEn: "Do this every night without fail. The evening routine is the most important session for sleep apnea patients.",
-          tipSe: "Gör detta varje kväll utan undantag. Kvällsrutinen är den viktigaste sessionen för sömnapnepatienter."
+          tipEn: "Do this every night without fail. The evening routine is the most important session for better breathing and sleep.",
+          tipSe: "Gör detta varje kväll utan undantag. Kvällsrutinen är den viktigaste sessionen för bättre andning och sömn."
         }
       ]
     },
@@ -562,8 +562,8 @@ const THERAPY_DATA = {
           instructionsEn: "Your full 5-minute evening routine before bed: 1 min 4-7-8 nasal breathing, 10x tongue-to-palate hold (10s), 10x palatal press posterior, 1 min gum chewing, rest posture check in sleeping position (60s). This prepares your airway for sleep and should be the last thing you do before sleeping.",
           instructionsSe: "Din fulla 5-minuters kvällsrutin innan sängdags: 1 min 4-7-8 näsandning, 10x tunga-mot-gommen (10s), 10x gomtryck posterior, 1 min tuggummimimik, vilopositionskontroll i sovposition (60s). Detta förbereder luftvägarna för sömn och bör vara det sista du gör innan du sover.",
           setsPerDay: 2,
-          tipEn: "The evening routine is especially important for sleep apnea patients. Consistency here directly impacts sleep quality.",
-          tipSe: "Kvällsrutinen är särskilt viktig för sömnapnepatienter. Konsekvens här påverkar sömnkvaliteten direkt."
+          tipEn: "The evening routine is especially important for better breathing and sleep quality. Consistency here directly impacts your sleep.",
+          tipSe: "Kvällsrutinen är särskilt viktig för bättre andning och sömnkvalitet. Konsekvens här påverkar din sömn direkt."
         },
         {
           id: "10-3", type: "timed", duration: 300, icon: "🏋️",

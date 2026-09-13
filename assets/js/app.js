@@ -66,7 +66,7 @@
     reset_desc:      { se: 'Radera all träningsdata och börja om', en: 'Delete all training data and start over' },
     reset_confirm:   { se: 'Är du säker? All din träningsdata kommer att raderas permanent.', en: 'Are you sure? All your training data will be permanently deleted.' },
     settings_about:   { se: 'Om',                en: 'About' },
-    about_desc:       { se: 'Myofunktionell terapi-app för sömnapnébehandling', en: 'Myofunctional therapy app for sleep apnea treatment' },
+    about_desc:       { se: 'Myofunktionell terapi-app för bättre andning, sömn och munfunktion', en: 'Myofunctional therapy app for better breathing, sleep and oral function' },
     cal_mon: { se: 'Må', en: 'Mo' }, cal_tue: { se: 'Ti', en: 'Tu' }, cal_wed: { se: 'On', en: 'We' },
     cal_thu: { se: 'To', en: 'Th' }, cal_fri: { se: 'Fr', en: 'Fr' }, cal_sat: { se: 'Lö', en: 'Sa' }, cal_sun: { se: 'Sö', en: 'Su' },
   };
