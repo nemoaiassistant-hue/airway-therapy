@@ -798,16 +798,18 @@
             save();
           });
 
-          // Complete button — toggles done/undo
+          // Complete button — toggles done/undo (bind exIdx in closure!)
           var completeBtn = $('#complete-btn-' + k);
           if (completeBtn) {
-            completeBtn.addEventListener('click', function () {
-              if (state.completedExercises[k]) {
-                uncompleteExercise(weekId, i);
-              } else {
-                completeExercise(weekId, i);
-              }
-            });
+            (function (k, exIdx) {
+              completeBtn.addEventListener('click', function () {
+                if (state.completedExercises[k]) {
+                  uncompleteExercise(weekId, exIdx);
+                } else {
+                  completeExercise(weekId, exIdx);
+                }
+              });
+            })(key, i);
           }
         })(key);
       }
