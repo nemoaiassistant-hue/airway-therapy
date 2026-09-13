@@ -16,6 +16,7 @@ body {
   position: sticky; top: 0; z-index: 100;
   background: linear-gradient(135deg, #1a6b69, #3bb6b3);
   padding: 14px 20px;
+  padding-top: calc(14px + env(safe-area-inset-top, 0px));
   box-shadow: 0 4px 20px rgba(26,107,105,.2);
 }
 .header-inner {
