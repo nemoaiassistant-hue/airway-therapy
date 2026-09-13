@@ -789,18 +789,20 @@
           if (minusBtn) minusBtn.addEventListener('click', function () {
             state.repCounters[k] = Math.max(0, (state.repCounters[k] || 0) - 1);
             if (countEl) countEl.textContent = state.repCounters[k];
+            save();
           });
 
           if (plusBtn) plusBtn.addEventListener('click', function () {
             state.repCounters[k] = (state.repCounters[k] || 0) + 1;
             if (countEl) countEl.textContent = state.repCounters[k];
+            save();
           });
 
           // Complete button — toggles done/undo
           var completeBtn = $('#complete-btn-' + k);
           if (completeBtn) {
             completeBtn.addEventListener('click', function () {
-              if (state.completedExercises[key]) {
+              if (state.completedExercises[k]) {
                 uncompleteExercise(weekId, i);
               } else {
                 completeExercise(weekId, i);
