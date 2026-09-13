@@ -67,6 +67,20 @@
     reset_confirm:   { se: 'Är du säker? All din träningsdata kommer att raderas permanent.', en: 'Are you sure? All your training data will be permanently deleted.' },
     settings_about:   { se: 'Om',                en: 'About' },
     undo:             { se: 'Ångra',             en: 'Undo' },
+    export_data:      { se: 'Exportera data',    en: 'Export Data' },
+    export_desc:      { se: 'Ladda ner en kopia av din träningsdata (JSON-fil)', en: 'Download a copy of your training data (JSON file)' },
+    export_done:      { se: 'Exporterad!',       en: 'Exported!' },
+    reminder_enable:  { se: 'Daglig påminnelse', en: 'Daily Reminder' },
+    reminder_desc:    { se: 'Få en påminnelse varje dag att träna (fungerar när appen är installerad)', en: 'Get a daily nudge to train (works when app is installed)' },
+    reminder_time:    { se: 'Påminnelsetid',     en: 'Reminder time' },
+    reminder_on:      { se: 'PÅ',                en: 'ON' },
+    reminder_off:     { se: 'AV',                en: 'OFF' },
+    reminder_denied:  { se: 'Notiser blockerade — aktivera i telefonens inställningar', en: 'Notifications blocked — enable them in your phone settings' },
+    pause_label:      { se: 'Träningspaus',      en: 'Training Pause' },
+    pause_desc:       { se: 'Pausa programmet — streak och låsning fryses, inget räknas missat', en: 'Pause the program — streak and unlocks freeze, nothing counts as missed' },
+    pause_on:         { se: 'Pausad',            en: 'Paused' },
+    pause_off:        { se: 'Aktiv',             en: 'Active' },
+    paused_banner:    { se: '⏸ Träningspaus aktiv — streaken är fryst', en: '⏸ Training paused — your streak is frozen' },
     about_desc:       { se: 'Myofunktionell terapi-app för bättre andning, sömn och munfunktion', en: 'Myofunctional therapy app for better breathing, sleep and oral function' },
     cal_mon: { se: 'Må', en: 'Mo' }, cal_tue: { se: 'Ti', en: 'Tu' }, cal_wed: { se: 'On', en: 'We' },
     cal_thu: { se: 'To', en: 'Th' }, cal_fri: { se: 'Fr', en: 'Fr' }, cal_sat: { se: 'Lö', en: 'Sa' }, cal_sun: { se: 'Sö', en: 'Su' },
@@ -88,6 +102,11 @@
     activeDays: [],           // array of date strings "YYYY-MM-DD" for streak calendar
     timers: {},               // exerciseId: { interval, remaining, total }
     repCounters: {},          // exerciseId: currentCount
+    paused: false,            // training pause: streak + unlock progression frozen
+    pauseStart: null,         // date string when pause started
+    reminderEnabled: false,   // daily training reminder
+    reminderHour: 18,         // reminder hour of day (0-23)
+    lastReminderShown: null,  // date string of last reminder fired
   };
 
   // =============================================
@@ -119,6 +138,11 @@
       sessionNotes: state.sessionNotes,
       activeDays: state.activeDays,
       repCounters: state.repCounters,
+      paused: state.paused,
+      pauseStart: state.pauseStart,
+      reminderEnabled: state.reminderEnabled,
+      reminderHour: state.reminderHour,
+      lastReminderShown: state.lastReminderShown,
     };
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
@@ -141,6 +165,11 @@
         if (parsed.sessionNotes) state.sessionNotes = parsed.sessionNotes;
         if (parsed.activeDays) state.activeDays = parsed.activeDays;
         if (parsed.repCounters) state.repCounters = parsed.repCounters;
+        if (typeof parsed.paused === 'boolean') state.paused = parsed.paused;
+        if (parsed.pauseStart) state.pauseStart = parsed.pauseStart;
+        if (typeof parsed.reminderEnabled === 'boolean') state.reminderEnabled = parsed.reminderEnabled;
+        if (typeof parsed.reminderHour === 'number') state.reminderHour = parsed.reminderHour;
+        if (parsed.lastReminderShown) state.lastReminderShown = parsed.lastReminderShown;
       }
     } catch (e) {
       // Corrupted data — start fresh
@@ -211,6 +240,9 @@
   }
 
   function updateStreak() {
+    // Training pause: streak frozen at its pre-pause value
+    if (state.paused) return;
+
     var today = todayStr();
 
     // Calculate streak from activeDays
@@ -270,7 +302,7 @@
             break;
           }
         }
-        // Unlock next week if all done and next exists
+    // Unlock next week if all done and next exists (respects training pause? No — pause only freezes streak)
         if (allDone && i + 1 < weeks.length) {
           var nextId = weeks[i + 1].id;
           if (state.weekUnlocked.indexOf(nextId) === -1) {
@@ -535,7 +567,7 @@
   function renderHome() {
     // Hero
     $('#heroTitle').textContent = t('hero_title');
-    $('#heroSub').textContent = t('hero_sub');
+    $('#heroSub').textContent = state.paused ? t('paused_banner') : t('hero_sub');
 
     // Stats
     var currentWeekId = getCurrentWeekId();
@@ -1171,9 +1203,54 @@
       '</div>' +
     '</div>';
 
+    // Reminder
+    html += '<div class="settings-group">' +
+      '<div class="settings-group-title">' + t('reminder_enable') + '</div>' +
+      '<div class="settings-item">' +
+        '<div class="settings-item-left">' +
+          '<span class="settings-item-icon">🔔</span>' +
+          '<div>' +
+            '<div class="settings-item-label">' + t('reminder_enable') + '</div>' +
+            '<div class="settings-item-sub" style="font-size:12px;color:#95D5B2">' + t('reminder_desc') + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<button class="pause-btn' + (state.reminderEnabled ? ' active' : '') + '" id="reminderToggleBtn">' +
+          (state.reminderEnabled ? t('reminder_on') : t('reminder_off')) +
+        '</button>' +
+      '</div>' +
+      (state.reminderEnabled ?
+        '<div class="settings-item" style="margin-top:8px">' +
+          '<div class="settings-item-left">' +
+            '<span class="settings-item-icon">⏰</span>' +
+            '<div class="settings-item-label">' + t('reminder_time') + '</div>' +
+          '</div>' +
+          '<input type="time" id="reminderTimeInput" value="' + String(state.reminderHour).padStart(2, '0') + ':00" ' +
+            'style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:6px 10px;font-size:14px">' +
+        '</div>' : '') +
+    '</div>';
+
+    // Training pause
+    html += '<div class="settings-group">' +
+      '<div class="settings-group-title">' + t('pause_label') + '</div>' +
+      '<div class="settings-item">' +
+        '<div class="settings-item-left">' +
+          '<span class="settings-item-icon">⏸</span>' +
+          '<div>' +
+            '<div class="settings-item-label">' + t('pause_label') + '</div>' +
+            '<div class="settings-item-sub" style="font-size:12px;color:#95D5B2">' + t('pause_desc') + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<button class="pause-btn' + (state.paused ? ' active' : '') + '" id="pauseToggleBtn">' +
+          (state.paused ? t('pause_on') : t('pause_off')) +
+        '</button>' +
+      '</div>' +
+    '</div>';
+
     // Data
     html += '<div class="settings-group">' +
       '<div class="settings-group-title">' + t('settings_data') + '</div>' +
+      '<button class="export-btn" id="exportDataBtn">⬇️ ' + t('export_data') + '</button>' +
+      '<p style="font-size:12px;color:#95D5B2;margin:8px 0 16px;padding:0 4px">' + t('export_desc') + '</p>' +
       '<button class="danger-btn" id="resetDataBtn">' + t('reset_data') + '</button>' +
       '<p style="font-size:12px;color:#95D5B2;margin-top:8px;padding:0 4px">' + t('reset_desc') + '</p>' +
     '</div>';
@@ -1214,7 +1291,137 @@
         });
       });
     }
+
+    // Bind export
+    var exportBtn = $('#exportDataBtn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', function () {
+        exportData();
+        exportBtn.textContent = '✅ ' + t('export_done');
+        setTimeout(function () { exportBtn.textContent = '⬇️ ' + t('export_data'); }, 2000);
+      });
+    }
+
+    // Bind pause toggle
+    var pauseBtn = $('#pauseToggleBtn');
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', function () {
+        setPaused(!state.paused);
+      });
+    }
+
+    // Bind reminder toggle + time
+    var reminderBtn = $('#reminderToggleBtn');
+    if (reminderBtn) {
+      reminderBtn.addEventListener('click', function () {
+        if (state.reminderEnabled) {
+          state.reminderEnabled = false;
+          save();
+          renderSettings();
+        } else {
+          requestReminderPermission(function (granted) {
+            if (granted) {
+              state.reminderEnabled = true;
+              save();
+              checkDailyReminder();
+            } else {
+              reminderBtn.textContent = '🚫';
+              setTimeout(function () { renderSettings(); }, 1500);
+            }
+          });
+        }
+      });
+    }
+    var timeInput = $('#reminderTimeInput');
+    if (timeInput) {
+      timeInput.addEventListener('change', function () {
+        var h = parseInt((timeInput.value || '18:00').split(':')[0], 10);
+        if (!isNaN(h)) {
+          state.reminderHour = h;
+          save();
+        }
+      });
+    }
   }
+
+  // =============================================
+  // DATA EXPORT
+  // =============================================
+  function exportData() {
+    var exportObj = {
+      app: 'airway-therapy',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      data: {
+        lang: state.lang,
+        completedExercises: state.completedExercises,
+        weekUnlocked: state.weekUnlocked,
+        dailyStreak: state.dailyStreak,
+        longestStreak: state.longestStreak,
+        lastActiveDate: state.lastActiveDate,
+        sessionNotes: state.sessionNotes,
+        activeDays: state.activeDays,
+        repCounters: state.repCounters,
+        paused: state.paused,
+      }
+    };
+    var blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'airway-therapy-' + todayStr() + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  // =============================================
+  // TRAINING PAUSE
+  // =============================================
+  function setPaused(on) {
+    state.paused = !!on;
+    state.pauseStart = on ? todayStr() : null;
+    save();
+    renderHome();
+    renderSettings();
+  }
+
+  // =============================================
+  // DAILY REMINDER (local notifications, no backend)
+  // =============================================
+  function requestReminderPermission(callback) {
+    if (!('Notification' in window)) { callback(false); return; }
+    if (Notification.permission === 'granted') { callback(true); return; }
+    if (Notification.permission === 'denied') { callback(false); return; }
+    Notification.requestPermission().then(function (perm) {
+      callback(perm === 'granted');
+    }).catch(function () { callback(false); });
+  }
+
+  function checkDailyReminder() {
+    if (!state.reminderEnabled || !('Notification' in window) || Notification.permission !== 'granted') return;
+    var now = new Date();
+    if (now.getHours() !== state.reminderHour) return;
+    var today = todayStr();
+    if (state.lastReminderShown === today) return;
+    // Only remind if today's session isn't already done
+    var todaysKey = getCurrentWeekId() + '-' + 0;
+    var weekDone = getWeekPercent(getCurrentWeekId()) === 100;
+    if (weekDone) return;
+    try {
+      new Notification('Airway Clinic — ' + t('hero_title'), {
+        body: t('reminder_desc'),
+        icon: 'assets/img/logo.png',
+        tag: 'daily-reminder',
+      });
+      state.lastReminderShown = today;
+      save();
+    } catch (e) { /* notification failed silently */ }
+  }
+
+  // Check reminder once a minute while app is open
+  setInterval(checkDailyReminder, 60000);
 
   function resetAllData() {
     localStorage.removeItem(STORAGE_KEY);
@@ -1228,6 +1435,11 @@
     state.timers = {};
     state.repCounters = {};
     state.selectedWeek = 1;
+    state.paused = false;
+    state.pauseStart = null;
+    state.reminderEnabled = false;
+    state.reminderHour = 18;
+    state.lastReminderShown = null;
     closeConfirm();
     updateHeaderProgress();
     showView('home');

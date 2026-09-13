@@ -1,4 +1,4 @@
-const CACHE_NAME = 'airway-therapy-v2';
+const CACHE_NAME = 'airway-therapy-v3';
 const BASE = '/airway-therapy';
 const ASSETS = [
   BASE + '/',

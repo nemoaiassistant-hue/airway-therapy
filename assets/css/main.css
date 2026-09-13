@@ -650,3 +650,38 @@ body {
 .empty-state-icon { font-size: 48px; margin-bottom: 12px; }
 .empty-state-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: #1a6b69; }
 .empty-state-text { font-size: 14px; }
+
+/* ===== Export / Pause / Reminder controls ===== */
+.export-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(26, 107, 105, 0.1);
+  color: #1a6b69;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.export-btn:active { background: rgba(26, 107, 105, 0.2); }
+
+.pause-btn {
+  padding: 8px 14px;
+  border: 1.5px solid #1a6b69;
+  border-radius: 20px;
+  background: transparent;
+  color: #1a6b69;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+  white-space: nowrap;
+}
+.pause-btn.active {
+  background: #E8C170;
+  border-color: #E8C170;
+  color: #1B4332;
+}
