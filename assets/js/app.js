@@ -66,6 +66,7 @@
     reset_desc:      { se: 'Radera all träningsdata och börja om', en: 'Delete all training data and start over' },
     reset_confirm:   { se: 'Är du säker? All din träningsdata kommer att raderas permanent.', en: 'Are you sure? All your training data will be permanently deleted.' },
     settings_about:   { se: 'Om',                en: 'About' },
+    undo:             { se: 'Ångra',             en: 'Undo' },
     about_desc:       { se: 'Myofunktionell terapi-app för bättre andning, sömn och munfunktion', en: 'Myofunctional therapy app for better breathing, sleep and oral function' },
     cal_mon: { se: 'Må', en: 'Mo' }, cal_tue: { se: 'Ti', en: 'Tu' }, cal_wed: { se: 'On', en: 'We' },
     cal_thu: { se: 'To', en: 'Th' }, cal_fri: { se: 'Fr', en: 'Fr' }, cal_sat: { se: 'Lö', en: 'Sa' }, cal_sun: { se: 'Sö', en: 'Su' },
@@ -79,7 +80,7 @@
     currentView: 'home',
     selectedWeek: 1,
     completedExercises: {},   // "weekId-exIdx": { completedAt, reps, note, mood, effort }
-    weekUnlocked: [1,2,3,4,5,6,7,8,9,10], // REVIEW MODE — all unlocked for preview
+    weekUnlocked: [1],        // progressive unlock: week 1 open, later weeks unlock on completion
     dailyStreak: 0,
     longestStreak: 0,
     lastActiveDate: null,
@@ -117,6 +118,7 @@
       lastActiveDate: state.lastActiveDate,
       sessionNotes: state.sessionNotes,
       activeDays: state.activeDays,
+      repCounters: state.repCounters,
     };
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
@@ -138,6 +140,7 @@
         if (parsed.lastActiveDate) state.lastActiveDate = parsed.lastActiveDate;
         if (parsed.sessionNotes) state.sessionNotes = parsed.sessionNotes;
         if (parsed.activeDays) state.activeDays = parsed.activeDays;
+        if (parsed.repCounters) state.repCounters = parsed.repCounters;
       }
     } catch (e) {
       // Corrupted data — start fresh
@@ -216,7 +219,7 @@
     var checkDate = new Date();
     checkDate.setHours(0, 0, 0, 0);
 
-    for (var i = 0; i < 365; i++) {
+    for (var i = 0; i < 3650; i++) {
       var y = checkDate.getFullYear();
       var m = String(checkDate.getMonth() + 1).padStart(2, '0');
       var d = String(checkDate.getDate()).padStart(2, '0');
@@ -414,11 +417,32 @@
     if (btn) {
       btn.classList.add('done');
       btn.textContent = t('complete') + ' ✓';
+      btn.title = t('undo');
     }
 
     var card = document.getElementById('exercise-card-' + key);
     if (card) {
       card.classList.add('exercise-done');
+    }
+  }
+
+  function uncompleteExercise(weekId, exIdx) {
+    var key = weekId + '-' + exIdx;
+    delete state.completedExercises[key];
+
+    save();
+    updateHeaderProgress();
+
+    var btn = document.getElementById('complete-btn-' + key);
+    if (btn) {
+      btn.classList.remove('done');
+      btn.textContent = t('complete');
+      btn.title = '';
+    }
+
+    var card = document.getElementById('exercise-card-' + key);
+    if (card) {
+      card.classList.remove('exercise-done');
     }
   }
 
@@ -772,11 +796,15 @@
             if (countEl) countEl.textContent = state.repCounters[k];
           });
 
-          // Complete button
+          // Complete button — toggles done/undo
           var completeBtn = $('#complete-btn-' + k);
           if (completeBtn) {
             completeBtn.addEventListener('click', function () {
-              completeExercise(weekId, i);
+              if (state.completedExercises[key]) {
+                uncompleteExercise(weekId, i);
+              } else {
+                completeExercise(weekId, i);
+              }
             });
           }
         })(key);
@@ -1284,6 +1312,18 @@
   // =============================================
   function init() {
     load();
+    // Language: stored choice wins; otherwise auto-detect from browser (Swedish clinic)
+    if (!localStorage.getItem(STORAGE_KEY)) {
+      try {
+        var nav = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+        state.lang = (nav && nav.toLowerCase().indexOf('sv') === 0) ? 'se' : 'en';
+      } catch (e) { /* keep default */ }
+    }
+    if (state.lang === 'se') {
+      document.documentElement.setAttribute('lang', 'sv');
+    } else {
+      document.documentElement.setAttribute('lang', 'en');
+    }
     checkWeekUnlock();
     updateStreak();
     updateI18n();
